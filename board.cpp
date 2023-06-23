@@ -221,7 +221,7 @@ bool Board :: operator==(const Board& other) const {
 
                     int a = tab[x][y], b = other.tab[i][j];
 
-                    if(a != b && checked[0][x][y] != checked[1][i][j]) is_equal = false;
+					if(a != b && checked[0][x][y] != checked[1][i][j]) is_equal = false;
                 }
             }
 
