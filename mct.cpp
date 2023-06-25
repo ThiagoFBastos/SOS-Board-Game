@@ -7,25 +7,24 @@
 #include <algorithm>
 #include <cassert>
 
+#define INF 1'000'000'000
+
 MCT :: MCT() {
-	reset();
-	//print();
+	
 }
 
-MCT :: MCT(int table[][8]) {
+MCT :: MCT(int iter) {
+	build(iter);
+}
+
+MCT :: MCT(int table[][8], int iter) {
 	for(int i = 0; i < 8; ++i) {
 		for(int j = 0; j < 8; ++j) {
 			if(table[i][j] < 0) continue;
 			board.put(i, j, table[i][j]);
 		}
 	}
-	reset();
-}
-
-void MCT :: reset() {
-	root.reset(new Position);
-	root->result = INT_MIN;
-	build(1000);
+	build(iter);
 }
 
 int MCT :: p1(int s, int a, int b) {
@@ -37,7 +36,7 @@ int MCT :: p1(int s, int a, int b) {
 
 	if(it != max[p].end()) return it->second;
 
-	int result = INT_MIN;
+	int result = -INF;
 
 	for(int x = 0; x < 8; ++x) {
 		for(int y = 0; y < 8; ++y) {
@@ -46,7 +45,7 @@ int MCT :: p1(int s, int a, int b) {
 				int pts = board.put(x, y, pi);
 				int score = pts + p2(s + pts, a, b);
 				board.rem(x, y);
-				if(b < score + s) return score;
+				if(b < score + s) return INF;
 				if(result < score) result = score;
 				if(a < score + s) a = score + s;
 			}
@@ -65,7 +64,7 @@ int MCT :: p2(int s, int a, int b) {
 
 	if(it != min[p].end()) return it->second;
 
-	int result = INT_MAX;
+	int result = INF;
 
 	for(int x = 0; x < 8; ++x) {
 		for(int y = 0; y < 8; ++y) {
@@ -74,7 +73,7 @@ int MCT :: p2(int s, int a, int b) {
 				int pts = board.put(x, y, pi);
 				int score = -pts + p1(s - pts, a, b);
 				board.rem(x, y);
-				if(a > score + s) return score;
+				if(a > score + s) return -INF;
 				if(result > score) result = score;
 				if(b > score + s) b = score + s;
 			}
@@ -104,13 +103,13 @@ void MCT :: print() {
 }
 
 void MCT :: build(std :: shared_ptr<Position>& p, int max) {
-	
+
 	if(board.getPositions() == 0) {
 		p->result = 0;
 		return;
 	}
 
-	p->result = max ? INT_MIN : INT_MAX;
+	p->result = max ? -INF : INF;
 
 	int x, y, pi;
 
@@ -127,7 +126,7 @@ void MCT :: build(std :: shared_ptr<Position>& p, int max) {
 
 	if(it == chlist.end()) {
 		ch.reset(new Position);
-		ch->result = max ? INT_MAX : INT_MIN;
+		ch->result = max ? INF : -INF;
 		chlist.push_back({x, y, pi, points, ch});
 	} else ch = it->next;
 
@@ -142,6 +141,8 @@ void MCT :: build(std :: shared_ptr<Position>& p, int max) {
 }
 
 void MCT :: build(int iter) {
+	root.reset(new Position);
+	root->result = -INF;
 	while(iter--) build(root, 1);
 }
 
@@ -149,7 +150,7 @@ int MCT :: do_next_move(int& x, int& y, int& pi) {
 	int p = board.getPositions();
 
 	if(p <= 9) {
-		int result = p1(0, INT_MIN, INT_MAX);
+		int result = p1(0, -INF, INF);
 
 		for(int i = 0; i < 8; ++i) {
 			for(int j = 0; j < 8; ++j) {
@@ -199,7 +200,7 @@ int MCT :: move_to(int x, int y, int pi) {
 
 	int score = board.put(x, y, pi);
 
-	if(it == chlist.end()) reset();
+	if(it == chlist.end()) build(1000);
 	else {
 		auto cur = it->next;
 		chlist.erase(it);

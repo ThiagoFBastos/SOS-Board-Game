@@ -12,14 +12,14 @@ class MCT {
 
     void build(std :: shared_ptr<Position>&, int);
     void print(std :: shared_ptr<Position>&);
-	void reset();
 	int p1(int, int, int);
 	int p2(int, int, int);
 
     public:
 
     MCT();
-    MCT(int[][8]);
+    MCT(int);
+    MCT(int[][8], int);
 
     ~MCT();
 

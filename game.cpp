@@ -51,7 +51,7 @@ void Game :: load_data() {
 
 	if(vs_cpu) {
 		
-		mct = MCT(data);
+		mct = MCT(data, 1000);
 
 		lblPlayer.set_label("Seu turno");
 
@@ -153,7 +153,7 @@ void Game :: on_reset_clicked() {
 	}
 
 	if(vs_cpu) {
-		mct = MCT();
+		mct = MCT(1000);
 
 		if(first) {
 			int r, c, p;
@@ -228,8 +228,8 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	myPoints += mct.move_to(focusR, focusC, my_piece == "O");
 	
 	if(turn == 64) {
-		if(myPoints < yourPoints) lblPlayer.set_label("Eu venci!");
-		else if(myPoints > yourPoints) lblPlayer.set_label("Você venceu!");
+		if(myPoints < yourPoints) lblPlayer.set_label("CPU venceu!");
+		else if(myPoints > yourPoints) lblPlayer.set_label("VOCÊ venceu!");
 		else lblPlayer.set_label("Empate!");
 		return;
 	}
@@ -245,8 +245,8 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	focusR = focusC = -1;
 
 	if(turn == 63) {
-		if(myPoints < yourPoints) lblPlayer.set_label("Cpu venceu!");
-		else if(myPoints > yourPoints) lblPlayer.set_label("Você venceu!");
+		if(myPoints < yourPoints) lblPlayer.set_label("CPU venceu!");
+		else if(myPoints > yourPoints) lblPlayer.set_label("VOCÊ venceu!");
 		else lblPlayer.set_label("Empate!");
 	}
 
