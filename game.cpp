@@ -70,7 +70,7 @@ void Game :: load_data() {
 			}
 		}
 
-		lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (CPU)");
+		lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (PC)");
 	} else {
 		board = Board();
 
@@ -177,7 +177,7 @@ void Game :: on_reset_clicked() {
 		}
 
 		lblPlayer.set_label("Seu turno");
-		lblPoints.set_label("0 (VOCÊ) x " + std :: to_string(yourPoints) + " (CPU)");
+		lblPoints.set_label("0 (VOCÊ) x " + std :: to_string(yourPoints) + " (PC)");
 	} else {
 		board = Board();
 		lblPlayer.set_label(first ? "Player B" : "Player A");
@@ -233,7 +233,7 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	myPoints += mct.move_to(focusR, focusC, my_piece == "O");
 
 	if(turn == 64) {
-		if(myPoints < yourPoints) lblPlayer.set_label("CPU venceu!");
+		if(myPoints < yourPoints) lblPlayer.set_label("PC venceu!");
 		else if(myPoints > yourPoints) lblPlayer.set_label("VOCÊ venceu!");
 		else lblPlayer.set_label("Empate!");
 		return;
@@ -245,12 +245,12 @@ void Game :: vs_cpu_on_confirm_clicked() {
 
 	put_piece(r, c, p);
 
-	lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (CPU)");
+	lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (PC)");
 
 	focusR = focusC = -1;
 
 	if(turn == 63) {
-		if(myPoints < yourPoints) lblPlayer.set_label("CPU venceu!");
+		if(myPoints < yourPoints) lblPlayer.set_label("PC venceu!");
 		else if(myPoints > yourPoints) lblPlayer.set_label("VOCÊ venceu!");
 		else lblPlayer.set_label("Empate!");
 	}
