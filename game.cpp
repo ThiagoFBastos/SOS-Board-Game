@@ -25,7 +25,9 @@ Game :: Game() {
 }
 
 Game :: ~Game() {
-
+	#ifdef DEBUG
+	std :: cout << "saindo do jogo\n";
+	#endif
 }
 
 void Game :: load_data() {
@@ -50,14 +52,14 @@ void Game :: load_data() {
 	}
 
 	if(vs_cpu) {
-		
-		mct = MCT(data, 1000);
+
+		mct = MCT(turn ? "data/cache_tree.dat" : "data/start_tree.dat", data);
 
 		lblPlayer.set_label("Seu turno");
 
 		if(turn == 0) {
 			double P = std :: uniform_real_distribution<double>(0, 1)(rng);
-	
+
 			if(P > 0.5) {
 				int r, c, p;
 				yourPoints = mct.do_next_move(r, c, p);
@@ -112,9 +114,15 @@ void Game :: save_data() {
 		}
 	}
 
+	if(vs_cpu) mct.persist("data/cache_tree.dat");
+
 	st.saveScore(myPoints, yourPoints);
 	st.saveTable(data);
 	st.saveFirst(first);
+
+	#ifdef DEBUG
+	std :: cout << "salvou o estado atual\n";
+	#endif
 
 	st.close();
 }
@@ -153,7 +161,11 @@ void Game :: on_reset_clicked() {
 	}
 
 	if(vs_cpu) {
-		mct = MCT(1000);
+		int table[8][8];
+
+		memset(&table[0][0], -1, sizeof table);
+
+		mct = MCT("data/start_tree.dat", table);
 
 		if(first) {
 			int r, c, p;
@@ -172,16 +184,8 @@ void Game :: on_reset_clicked() {
 	}
 }
 
-void Game :: on_start_clicked() {
-
-}
-
-void Game :: on_pause_clicked() {
-
-}
-
 void Game :: on_cell_clicked(int r, int c) {
-	
+
 	if(vs_cpu) {
 
 		if((turn ^ first) % 2 || frozen[r][c]) return;
@@ -226,7 +230,7 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	frozen[focusR][focusC] = true;
 
 	myPoints += mct.move_to(focusR, focusC, my_piece == "O");
-	
+
 	if(turn == 64) {
 		if(myPoints < yourPoints) lblPlayer.set_label("CPU venceu!");
 		else if(myPoints > yourPoints) lblPlayer.set_label("VOCÊ venceu!");
@@ -235,13 +239,13 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	}
 
 	yourPoints += mct.do_next_move(r, c, p);
-	
+
 	frozen[r][c] = true;
 
 	put_piece(r, c, p);
-	
+
 	lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (CPU)");
-	
+
 	focusR = focusC = -1;
 
 	if(turn == 63) {
@@ -277,7 +281,7 @@ void Game :: vs_player_on_confirm_clicked() {
 			lblPlayer.set_label("O player B venceu!");
 		else
 			lblPlayer.set_label("Empate!");
-	} else if(player == 0) 
+	} else if(player == 0)
 		lblPlayer.set_label("Player B");
 	else
 		lblPlayer.set_label("Player A");
@@ -289,7 +293,7 @@ void Game :: on_confirm_clicked() {
 }
 
 void Game :: set_hierarchy() {
-		
+
 	//grid
 	add(grid);
 	grid.set_column_spacing(5);
@@ -297,17 +301,9 @@ void Game :: set_hierarchy() {
 
 	//lblPlayer
 	grid.attach(lblPlayer, 0, 0, 4, 2);
-	
+
 	//lblPoints
 	grid.attach(lblPoints, 0, 2, 4, 2);
-
-	//btnStart
-	grid.attach(btnStart, 0, 4, 4);
-	btnStart.signal_clicked().connect(sigc :: mem_fun(*this, &Game :: on_start_clicked));
-
-	//btnPause
-	grid.attach(btnPause, 0, 5, 4);
-	btnPause.signal_clicked().connect(sigc :: mem_fun(*this, &Game :: on_pause_clicked));
 
 	//btnReset
 	grid.attach(btnReset, 0, 6, 4);
@@ -336,19 +332,7 @@ void Game :: draw_widgets() {
 
 	//btnReset
 	btnReset.set_label("reset");
-	
-
-	//btnPause
-	btnPause.set_label("pausar");
-
-	//btnStart
-	btnStart.set_label("começar");
 
 	//btnConfirm
 	btnConfirm.set_label("confirmar");
-
-	//lblPoints
-	
-
-	// table
 }

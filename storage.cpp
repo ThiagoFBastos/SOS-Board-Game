@@ -2,14 +2,13 @@
 #include <cstring>
 #include <cerrno>
 #include <iostream>
+#include <cassert>
+#include <cstdlib>
 
 Storage :: Storage(const char* filename) {
 	checkStorage(filename);
 	fs.open(filename, std :: ios_base :: binary | std :: ios_base :: in | std :: ios_base :: out);
-	if(!fs.is_open()) {
-		std :: cout << filename << ": " << strerror(errno) << '\n';
-		exit(0);
-	}
+	assert(fs.is_open());
 }
 
 Storage :: ~Storage() {
@@ -34,7 +33,7 @@ void Storage :: checkStorage(const char* filename) {
 	int table[8][8], p1 {}, p2{}, first {};
 
 	memset(table, -1, sizeof table);
-	
+
 	ofs.write((const char*)&player, 1);
 	ofs.write((const char*)&table[0][0], 4 * 64);
 	ofs.write((const char*)&p1, 4);
@@ -47,7 +46,7 @@ void Storage :: checkStorage(const char* filename) {
 bool Storage :: getEnemy() {
 	bool enemy;
 	fs.seekg(0, std :: ios_base :: beg);
-	fs.read((char*)&enemy, 1);	
+	fs.read((char*)&enemy, 1);
 	return enemy;
 }
 

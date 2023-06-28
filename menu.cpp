@@ -50,16 +50,14 @@ void Menu :: on_play_clicked() {
 	game = new Game;
 	game->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_play_hided));
 	game->show();
-	std :: cout << "apertou o play\n";
 }
 
 void Menu :: on_settings_clicked() {
 	if(!has_focus) return;
 	has_focus = false;
 	settings = new Settings;
-	settings->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_settings_hided));	
+	settings->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_settings_hided));
 	settings->show();
-	std :: cout << "apertou o settings button\n";
 }
 
 void Menu :: on_about_clicked() {
@@ -68,11 +66,10 @@ void Menu :: on_about_clicked() {
 	about = new About;
 	about->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_about_hided));
 	about->show();
-	std :: cout << "apertou o about button\n";	
 }
 
 void Menu :: set_hierarchy() {
-	
+
 	add(mbox);
 
 	mbox.pack_start(lblSos);
@@ -94,7 +91,7 @@ void Menu :: set_hierarchy() {
 }
 
 void Menu :: draw_widgets() {
-	
+
 	mbox = Gtk :: Box(Gtk :: ORIENTATION_VERTICAL);
 
 	lblSos.set_label("SOS game");
@@ -103,5 +100,5 @@ void Menu :: draw_widgets() {
 
 	btnSettings.set_label("Settings");
 
-	btnAbout.set_label("About");	
+	btnAbout.set_label("About");
 }

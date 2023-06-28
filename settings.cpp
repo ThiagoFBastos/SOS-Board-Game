@@ -9,8 +9,6 @@ Settings :: Settings() {
 	set_default_size(300, 300);
 	set_visible(true);
 
-	// coloque aqui
-
 	draw_widgets();
 	set_hierarchy();
 	show_all_children();
@@ -18,9 +16,11 @@ Settings :: Settings() {
 	Storage st("data/cache.dat");
 	vsPlayer.set_active(!st.getEnemy());
 }
-	
+
 Settings :: ~Settings() {
+	#ifdef DEBUG
 	std :: cout << "saindo dou settings\n";
+	#endif
 }
 
 void Settings :: on_save_clicked() {
@@ -35,8 +35,10 @@ void Settings :: on_save_clicked() {
 		st.saveTable(table);
 		st.saveScore(p1, p2);
 		st.saveFirst(first);
-		
+
+		#ifdef DEBUG
 		std :: cout << "você salvou isso\n";
+		#endif
 	}
 
 	st.close();
@@ -44,7 +46,9 @@ void Settings :: on_save_clicked() {
 
 void Settings :: on_reset_clicked() {
 	vsPlayer.set_active(true);
+	#ifdef DEBUG
 	std :: cout << "você resetou isso\n";
+	#endif
 }
 
 void Settings :: set_hierarchy() {
@@ -52,7 +56,7 @@ void Settings :: set_hierarchy() {
 
 	outerBox.pack_start(framePlayer, Gtk :: PACK_SHRINK);
 	outerBox.pack_end(boxAction, Gtk :: PACK_SHRINK);
-	
+
 	//framePlayer
 	framePlayer.add(boxVs);
 	boxVs.pack_start(vsPlayer);

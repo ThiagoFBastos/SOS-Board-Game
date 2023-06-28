@@ -21,7 +21,7 @@ class Menu : public Gtk :: Window {
 
 	void set_hierarchy();
 	void draw_widgets();
-	
+
 	void on_about_hided();
 	void on_settings_hided();
 	void on_play_hided();

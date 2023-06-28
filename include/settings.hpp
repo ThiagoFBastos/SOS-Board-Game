@@ -9,23 +9,18 @@
 #include <gtkmm/frame.h>
 
 class Settings : public Gtk :: Window {
-	/*
-		vs pc ou outro player		
-		colocar num arquivo
-	*/
-
 	Gtk :: Frame framePlayer;
 	Gtk :: RadioButton vsPlayer, vsCpu;
 	Gtk :: Button btnSave, btnReset;
 	Gtk :: Box outerBox, boxAction, boxVs;
-	
+
 	void set_hierarchy();
 	void draw_widgets();
 	void on_save_clicked();
 	void on_reset_clicked();
 
 	public:
-		
+
 	Settings();
 	~Settings();
 };

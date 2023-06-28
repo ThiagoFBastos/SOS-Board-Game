@@ -10,10 +10,10 @@
 #include "board.hpp"
 
 class Game : public Gtk :: Window {
-		
+
 	Gtk :: Grid grid;
 	Gtk :: Label lblPoints, lblPlayer;
-	Gtk :: Button btnReset, btnPause, btnStart, btnConfirm, table[8][8];
+	Gtk :: Button btnReset, btnConfirm, table[8][8];
 	Gtk :: Separator separator;
 	int myPoints, yourPoints;
 	int focusR, focusC, turn, first;
@@ -29,8 +29,6 @@ class Game : public Gtk :: Window {
 	void on_cell_clicked(int, int);
 	void on_confirm_clicked();
 	void on_reset_clicked();
-	void on_start_clicked();
-	void on_pause_clicked();
 	void put_piece(int, int, int);
 
 	void vs_cpu_on_confirm_clicked();

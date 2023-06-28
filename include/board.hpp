@@ -21,8 +21,9 @@ class Board {
     char positions;
 
     bool check(int, int) const;
-	bool checkDistraction(int, int) const;
-
+	bool checkODistraction(int, int) const;
+    bool checkSDistraction(int, int) const;
+    
     public:
 
     Board();
