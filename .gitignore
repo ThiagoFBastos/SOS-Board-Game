@@ -28,3 +28,4 @@ include/position.hpp~
 include/settings.hpp~
 include/storage.hpp~
 data/cache.dat
+.gitignore~
