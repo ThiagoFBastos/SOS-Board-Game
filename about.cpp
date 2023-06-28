@@ -5,13 +5,14 @@ About :: About() {
 	set_title("about");
 	set_default_size(300, 300);
 	set_visible(true);
+	set_resizable(false);
 	draw_widgets();
 	set_hierarchy();
 	show_all_children();
 }
 
 About :: ~About() {
-	
+
 }
 
 

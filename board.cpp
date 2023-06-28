@@ -240,9 +240,10 @@ bool Board :: operator==(const Board& other) const {
 
 					if(t) std :: swap(x, y);
 
-                    int a = tab[x][y], b = other.tab[i][j];
+					int a = checked[0][x][y] ? 2 : tab[x][y];
+					int b = checked[1][i][j] ? 2 : tab[i][j];
 
-					if(a != b && checked[0][x][y] != checked[1][i][j]) is_equal = false;
+					is_equal = is_equal && a == b;
                 }
             }
 

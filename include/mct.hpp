@@ -5,7 +5,7 @@
 #include "position.hpp"
 #include <memory>
 
-#define MINIMAXN 8
+#define MINIMAXN 10
 
 class MCT {
 	ht<Board, int, BHash> max[65], min[65];

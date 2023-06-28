@@ -182,7 +182,7 @@ void MCT :: build(std :: shared_ptr<Position>& p, int max) {
 	auto& chlist = p->children;
 	std :: shared_ptr<Position> ch;
 
-	auto it = std :: find_if(chlist.begin(), chlist.end(), [x,y,pi](Edge a) {
+	auto it = std :: find_if(chlist.begin(), chlist.end(), [x, y, pi](const Edge& a) {
 		return a.x == x && a.y == y && a.piece == pi;
 	});
 

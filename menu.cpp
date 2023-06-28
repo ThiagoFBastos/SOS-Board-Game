@@ -10,6 +10,7 @@ Menu :: Menu() {
 	set_title("SOS game");
 	set_default_size(300, 300);
 	set_visible(true);
+	set_resizable(false);
 
 	draw_widgets();
 
@@ -30,18 +31,21 @@ void Menu :: on_about_hided() {
 	delete about;
 	about = nullptr;
 	has_focus = true;
+	set_opacity(1);
 }
 
 void Menu :: on_settings_hided() {
 	delete settings;
 	settings = nullptr;
 	has_focus = true;
+	set_opacity(1);
 }
 
 void Menu :: on_play_hided() {
 	delete game;
 	game = nullptr;
 	has_focus = true;
+	set_opacity(1);
 }
 
 void Menu :: on_play_clicked() {
@@ -50,6 +54,7 @@ void Menu :: on_play_clicked() {
 	game = new Game;
 	game->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_play_hided));
 	game->show();
+	set_opacity(0);
 }
 
 void Menu :: on_settings_clicked() {
@@ -58,6 +63,7 @@ void Menu :: on_settings_clicked() {
 	settings = new Settings;
 	settings->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_settings_hided));
 	settings->show();
+	set_opacity(0);
 }
 
 void Menu :: on_about_clicked() {
@@ -66,6 +72,7 @@ void Menu :: on_about_clicked() {
 	about = new About;
 	about->signal_hide().connect(sigc :: mem_fun(*this, &Menu :: on_about_hided));
 	about->show();
+	set_opacity(0);
 }
 
 void Menu :: set_hierarchy() {

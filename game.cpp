@@ -12,6 +12,7 @@ Game :: Game() {
 	set_title("SOS game");
 	set_default_size(400, 300);
 	set_visible(true);
+	set_resizable(false);
 
 	draw_widgets();
 
@@ -169,7 +170,7 @@ void Game :: on_reset_clicked() {
 
 		if(first) {
 			int r, c, p;
-			mct.do_next_move(r, c, p);
+			yourPoints = mct.do_next_move(r, c, p);
 			put_piece(r, c, p);
 			frozen[r][c] = true;
 			++turn;

@@ -23,11 +23,11 @@ class Board {
     bool check(int, int) const;
 	bool checkODistraction(int, int) const;
     bool checkSDistraction(int, int) const;
-    
+
     public:
 
     Board();
-	
+
 	void nextMove(int&, int&, int&);
     bool can(int, int) const;
     int getPositions() const;
