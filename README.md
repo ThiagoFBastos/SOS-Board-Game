@@ -1,6 +1,6 @@
 # SOS Board Game
 
-Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) em C++ com gtkmm
+Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) (Os jogadores sempre alternam os movimentos) em C++ com gtkmm.
 
 # Screenshots
 
@@ -31,3 +31,6 @@ Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) em C++ 
 
 # Instalação
 1. Abra a pasta e rode make
+
+# Teste
+https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/video.mp4
