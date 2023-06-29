@@ -36,11 +36,11 @@ MCT :: MCT(const char* filename, int table[][8]) {
 			int piece;
 			int points;
 			int firstChild;
-			int sibiling;
+			int sibling;
 		};
 
 		/*
-			[result | x | y | piece | points | firstChild | sibiling]
+			[result | x | y | piece | points | firstChild | sibling]
 		*/
 
 		auto loadRecord = [&fs](int u)->RECORD {
@@ -53,7 +53,7 @@ MCT :: MCT(const char* filename, int table[][8]) {
 			fs.read((char*)&record.piece, 4);
 			fs.read((char*)&record.points, 4);
 			fs.read((char*)&record.firstChild, 4);
-			fs.read((char*)&record.sibiling, 4);
+			fs.read((char*)&record.sibling, 4);
 			return record;
 		};
 
@@ -65,7 +65,7 @@ MCT :: MCT(const char* filename, int table[][8]) {
 			for(int v = r.firstChild; v != -1; ) {
 				auto rC = loadRecord(v);
 				ptr->children.push_back({rC.x, rC.y, rC.piece, rC.points, self(self, v)});
-				v = rC.sibiling;
+				v = rC.sibling;
 			}
 
 			return ptr;
@@ -311,7 +311,7 @@ void MCT :: persist(const char* filename) {
 		int y;
 		int piece;
 		int points;
-		int sibiling;
+		int sibling;
 	};
 
 	std :: queue<RECORD> q;
@@ -326,11 +326,11 @@ void MCT :: persist(const char* filename) {
 	});
 
 	/*
-		[result | x | y | piece | points | firstChild | sibiling]
+		[result | x | y | piece | points | firstChild | sibling]
 	*/
 
 	while(!q.empty()) {
-		auto [ptr, x, y, piece, points, sibiling] = q.front();
+		auto [ptr, x, y, piece, points, sibling] = q.front();
 
 		q.pop();
 
@@ -345,7 +345,7 @@ void MCT :: persist(const char* filename) {
 		int firstChild = adj.empty() ? -1 : cur;
 
 		fs.write((const char*)&firstChild, 4);
-		fs.write((const char*)&sibiling, 4);
+		fs.write((const char*)&sibling, 4);
 
 		for(int i = 0; i < (int)adj.size(); ++i) {
 			auto& [x, y, piece, points, child] = adj[i];

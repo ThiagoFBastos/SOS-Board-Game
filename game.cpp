@@ -13,6 +13,7 @@ Game :: Game() {
 	set_default_size(400, 300);
 	set_visible(true);
 	set_resizable(false);
+	set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 
 	draw_widgets();
 

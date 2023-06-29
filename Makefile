@@ -14,6 +14,7 @@ mct.o: mct.cpp
 
 board.o: board.cpp
 	$(COMPILER) -O3 -c board.cpp $(LIBS)
+
 %.o: %.cpp
 	$(COMPILER) -c $< $(LIBS)
 

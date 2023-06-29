@@ -15,20 +15,20 @@ struct BHash {
 };
 
 class Board {
-	friend struct BHash;
+    friend struct BHash;
 
     char tab[8][8];
     char positions;
 
     bool check(int, int) const;
-	bool checkODistraction(int, int) const;
+    bool checkODistraction(int, int) const;
     bool checkSDistraction(int, int) const;
 
     public:
 
     Board();
 
-	void nextMove(int&, int&, int&);
+    void nextMove(int&, int&, int&);
     bool can(int, int) const;
     int getPositions() const;
     int put(int, int, int);

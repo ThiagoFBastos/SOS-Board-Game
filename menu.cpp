@@ -11,6 +11,7 @@ Menu :: Menu() {
 	set_default_size(300, 300);
 	set_visible(true);
 	set_resizable(false);
+	set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 
 	draw_widgets();
 

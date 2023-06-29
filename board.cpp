@@ -115,25 +115,26 @@ void Board :: nextMove(int& x, int& y, int& pi) {
 		for(int j = 0; j < 8; ++j) {
 			if(tab[i][j] != EMPTY) continue;
 
-			if(checkSDistraction(i, j)) {
-				options.emplace_back(i, j, 0);
-				w.push_back(1000);
-			}
-
-			if(checkODistraction(i, j)) {
-				options.emplace_back(i, j, 1);
-				w.push_back(1000);
-			}
-
 			for(int p = 0; p < 2; ++p) {
 				tab[i][j] = p;
+
 				int score = getPoints(i, j);
+
 				if(score) {
 					options.emplace_back(i, j, p);
 					w.push_back(100000 * score);
+				} else if(p == 0) {
+					options.emplace_back(i, j, 0);
+					if(checkSDistraction(i, j))
+						w.push_back(1000);
+					else
+						w.push_back(1);
 				} else {
-					options.emplace_back(i, j, p);
-					w.push_back(1);
+					options.emplace_back(i, j, 1);
+					if(checkODistraction(i, j))
+						w.push_back(1000);
+					else
+						w.push_back(1);
 				}
 			}
 
