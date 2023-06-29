@@ -33,4 +33,6 @@ Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) (Os jog
 1. Abra a pasta e rode make
 
 # Teste
-https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/video.mp4
+
+
+https://github.com/ThiagoFBastos/SOS-Board-Game/assets/40869714/e42a9ffe-c9d4-463a-b6d3-520a902c0376
