@@ -5,11 +5,17 @@ Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) em C++ 
 # Screenshots
 
 ![menu](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/menu.png)
+
 ![settings](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/settings.png)
+
 ![about](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/about.png)
+
 ![player x player](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/AxB-1.png)
+
 ![player x player: completo](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/AxB-completo.png)
+
 ![vc x cpu](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/VCxPC.png)
+
 ![vc x cpu: completo](https://github.com/ThiagoFBastos/SOS-Board-Game/blob/main/data/VCxPC-completo.png)
 
 # Instruções
