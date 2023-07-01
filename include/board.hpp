@@ -24,6 +24,8 @@ class Board {
     bool checkODistraction(int, int) const;
     bool checkSDistraction(int, int) const;
 
+	void getMaxTab(char [][8]) const;
+
     public:
 
     Board();

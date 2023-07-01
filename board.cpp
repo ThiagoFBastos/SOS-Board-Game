@@ -9,44 +9,55 @@
 
 size_t BHash :: operator()(const Board& board) const {
     // melhorar o hash depois
-    uint64_t h[8] = {0}, ans {};
+    uint64_t h {};
     const int MOD = 1e9 + 7;
     const int P = 19191;
-    const int origin[][2] = {{0, 0}, {0, 7}, {7, 0}, {7, 7}};
-	int checked[8][8];
+	char tab[8][8];
+
+	board.getMaxTab(tab);
 
 	for(int i = 0; i < 8; ++i)
 		for(int j = 0; j < 8; ++j)
-			checked[i][j] = board.check(i, j);
+			h = (P * h + tab[i][j]) % MOD;
 
-    for(int i = 0; i < 8; ++i) {
-        for(int j = 0; j < 8; ++j) {
-
-            for(int k = 0; k < 4; ++k) {
-                int x0 = origin[k][0], y0 = origin[k][1];
-                int dx = x0 ? -1 : 1, dy = y0 ? -1 : 1;
-
-                for(int t = 0; t < 2; ++t) {
-                    int x = x0 + dx * i, y = y0 + dy * j;
-
-                    if(t) std :: swap(x, y);
-
-					int ch = checked[x][y] ? 4 : 2 + board.tab[x][y];
-
-                    h[2 * k + t] = (P * h[2 * k + t] + ch) % MOD;
-                }
-            }
-        }
-    }
-
-    for(int i = 0; i < 8; ++i) if(ans < h[i]) ans = h[i];
-
-    return ans;
+    return h;
 }
 
 Board :: Board() {
     positions = 64;
     memset(&tab[0][0], EMPTY, sizeof tab);
+}
+
+void Board :: getMaxTab(char t[][8]) const {
+	char tabs[8][65];
+	int cur = 0;
+	const int origin[][2] = {{0, 0}, {0, 7}, {7, 0}, {7, 7}};
+	bool checked[8][8];
+
+	for(int i = 0; i < 8; ++i)
+		for(int j = 0; j < 8; ++j)
+			checked[i][j] = check(i, j);
+
+	for(int i = 0; i < 8; ++i) {
+		for(int j = 0; j < 8; ++j) {
+			for(int k = 0; k < 4; ++k) {
+				int x0 = origin[k][0], y0 = origin[k][1];
+                int dx = x0 ? -1 : 1, dy = y0 ? -1 : 1;
+				for(int t = 0; t < 2; ++t) {
+					int x = x0 + dx * i, y = y0 + dy * j;
+                    if(t) std :: swap(x, y);
+					tabs[2 * k + t][i * 8 + j] = checked[x][y] ? 4 : 2 + tab[x][y];
+				}
+			}
+		}
+	}
+
+	for(int i = 0; i < 8; ++i) tabs[i][64] = '\0';
+	for(int i = 1; i < 8; ++i) if(strcmp(tabs[i], tabs[cur]) >= 0) cur = i;
+	
+	for(int i = 0; i < 8; ++i)
+		for(int j = 0; j < 8; ++j)
+			t[i][j] = tabs[cur][i * 8 + j];
 }
 
 bool Board :: check(int x, int y) const {

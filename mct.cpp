@@ -8,8 +8,6 @@
 #include <cassert>
 #include <fstream>
 #include <queue>
-#include <array>
-#include <iterator>
 
 #define INF 1'000'000'000
 
@@ -212,9 +210,17 @@ int MCT :: do_next_move(int& x, int& y, int& pi) {
 	int p = board.getPositions();
 
 	if(p <= MINIMAXN) {
+		#ifdef DEBUG
+		int64_t A = std :: chrono :: steady_clock :: now().time_since_epoch().count();
+		#endif
+
 		int result = p1(0, -INF, INF);
 
 		#ifdef DEBUG
+		int64_t B = std :: chrono :: steady_clock :: now().time_since_epoch().count();
+		std :: cout.setf(std :: ios_base :: fixed);
+		std :: cout << "tempo do minimax = " << double(B - A) * std :: chrono :: system_clock :: period :: num / std :: chrono :: system_clock :: period :: den << " s\n";
+		
 		if(p == MINIMAXN || p == MINIMAXN - 1) {
 			int tot = 0;
 			for(int i = 0; i <= 64; ++i) tot += max[i].size() + min[i].size();
