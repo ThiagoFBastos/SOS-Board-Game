@@ -47,9 +47,12 @@ void Game :: load_data() {
 
 	for(int i = 0; i < 8; ++i) {
 		for(int j = 0; j < 8; ++j) {
-			put_piece(i, j, data[i][j]);
-			frozen[i][j] = data[i][j] != -1;
-			turn += data[i][j] != -1;
+			frozen[i][j] = false;
+			if(data[i][j] != -1) {
+				confirm_piece(i, j, data[i][j]);
+				++turn;
+			} else
+				put_piece(i, j, -1);
 		}
 	}
 
@@ -65,8 +68,7 @@ void Game :: load_data() {
 			if(P > 0.5) {
 				int r, c, p;
 				yourPoints = mct.do_next_move(r, c, p);
-				frozen[r][c] = true;
-				put_piece(r, c, p);
+				confirm_piece(r, c, p);
 				turn = first = 1;
 			}
 		}
@@ -146,6 +148,22 @@ void Game :: put_piece(int x, int y, int pi) {
 	table[x][y].get_style_context()->add_provider(css, GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
+void Game :: confirm_piece(int r, int c, int pi) {
+	Glib :: RefPtr<Gtk :: CssProvider> css = Gtk :: CssProvider :: create();
+
+	frozen[r][c] = true;
+
+	if(pi == 0) {
+		table[r][c].set_label("S");
+		css->load_from_data("button {color: red;background-image: image(white);}");
+	} else {
+		table[r][c].set_label("O");
+		css->load_from_data("button {color: blue;background-image: image(white);}");
+	}
+
+	table[r][c].get_style_context()->add_provider(css, GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
 void Game :: on_reset_clicked() {
 	std :: mt19937 rng(std :: chrono::steady_clock::now().time_since_epoch().count());
 	double P = std :: uniform_real_distribution<double>(0,1)(rng);
@@ -172,8 +190,7 @@ void Game :: on_reset_clicked() {
 		if(first) {
 			int r, c, p;
 			yourPoints = mct.do_next_move(r, c, p);
-			put_piece(r, c, p);
-			frozen[r][c] = true;
+			confirm_piece(r, c, p);
 			++turn;
 		}
 
@@ -229,7 +246,7 @@ void Game :: vs_cpu_on_confirm_clicked() {
 	int r, c, p;
 	auto my_piece = table[focusR][focusC].get_label();
 
-	frozen[focusR][focusC] = true;
+	confirm_piece(focusR, focusC, my_piece == "O");
 
 	myPoints += mct.move_to(focusR, focusC, my_piece == "O");
 
@@ -242,9 +259,7 @@ void Game :: vs_cpu_on_confirm_clicked() {
 
 	yourPoints += mct.do_next_move(r, c, p);
 
-	frozen[r][c] = true;
-
-	put_piece(r, c, p);
+	confirm_piece(r, c, p);
 
 	lblPoints.set_label(std :: to_string(myPoints) + " (VOCÊ) x " + std :: to_string(yourPoints) + " (PC)");
 
@@ -261,12 +276,12 @@ void Game :: vs_cpu_on_confirm_clicked() {
 
 void Game :: vs_player_on_confirm_clicked() {
 	if(focusR < 0 || focusC < 0) return;
-
+	
 	int player = (turn ^ first) % 2;
 
 	auto piece = table[focusR][focusC].get_label();
 
-	frozen[focusR][focusC] = true;
+	confirm_piece(focusR, focusC, piece == "O");
 
 	if(player == 0) myPoints += board.put(focusR, focusC, piece == "O");
 	else yourPoints += board.put(focusR, focusC, piece == "O");

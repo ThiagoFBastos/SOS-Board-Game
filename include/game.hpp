@@ -30,6 +30,7 @@ class Game : public Gtk :: Window {
 	void on_confirm_clicked();
 	void on_reset_clicked();
 	void put_piece(int, int, int);
+	void confirm_piece(int, int, int);
 
 	void vs_cpu_on_confirm_clicked();
 	void vs_player_on_confirm_clicked();

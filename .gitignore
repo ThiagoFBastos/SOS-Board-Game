@@ -29,3 +29,4 @@ include/settings.hpp~
 include/storage.hpp~
 data/cache.dat
 .gitignore~
+README.md~
