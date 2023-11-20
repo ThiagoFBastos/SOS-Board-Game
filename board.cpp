@@ -63,7 +63,7 @@ void Board :: getMaxTab(char t[][8]) const {
 bool Board :: check(int x, int y) const {
 	if(tab[x][y] == EMPTY) return false;
 
-    bool util {};
+    bool flag {};
 
     const int delta[][2] = {
 		{1, 0},
@@ -76,7 +76,7 @@ bool Board :: check(int x, int y) const {
 		for(int i = 0; i < 4; ++i) {
 			int dx = delta[i][0], dy = delta[i][1];
 			int x0 = x - k * dx, y0 = y - k * dy;
-			util = util || (!(x0 < 0 || y0 < 0 || x0 >= 8 || y0 >= 8 ||
+			flag = flag || (!(x0 < 0 || y0 < 0 || x0 >= 8 || y0 >= 8 ||
 			x0 + 2 * dx < 0 || y0 + 2 * dy < 0 ||
 			x0 + 2 * dx >= 8 || y0 + 2 * dy >= 8) &&
 			(tab[x0][y0] != O) &&
@@ -85,7 +85,7 @@ bool Board :: check(int x, int y) const {
 		}
 	}
 
-    return !util;
+    return !flag;
 }
 
 void Board :: print() const {
@@ -133,19 +133,23 @@ void Board :: nextMove(int& x, int& y, int& pi) {
 
 				if(score) {
 					options.emplace_back(i, j, p);
-					w.push_back(100000 * score);
+					w.push_back(254080 * score);
 				} else if(p == 0) {
 					options.emplace_back(i, j, 0);
 					if(checkSDistraction(i, j))
-						w.push_back(1000);
-					else
+						w.push_back(4033);
+					else if(checkOBad(i, j))
 						w.push_back(1);
+					else
+						w.push_back(64);
 				} else {
 					options.emplace_back(i, j, 1);
 					if(checkODistraction(i, j))
-						w.push_back(1000);
-					else
+						w.push_back(4033);
+					else if(checkSBad(i, j))
 						w.push_back(1);
+					else
+						w.push_back(64);
 				}
 			}
 
@@ -158,6 +162,54 @@ void Board :: nextMove(int& x, int& y, int& pi) {
 	std :: tie(x, y, pi) = options[dis(rng)];
 }
 
+bool Board :: checkOBad(int x, int y) const {
+	const int delta[][2] =  {
+		{1, 0},
+		{0, 1},
+		{1, 1},
+		{1, -1}
+	};
+
+	bool flag {};
+
+	if(tab[x][y] != EMPTY) return false;
+
+	for(int k = 0; k < 4; ++k) {
+		int x0 = x - delta[k][0], y0 = y - delta[k][1];
+		int x2 = x + delta[k][0], y2 = y + delta[k][1];
+		flag = flag || (x0 >= 0 && y0 >= 0 && x0 < 8 && y0 < 8 && x2 >= 0 && y2 >= 0 && x2 < 8 && y2 < 8
+			&& ((tab[x0][y0] == S && tab[x2][y2] == EMPTY) || (tab[x0][y0] == EMPTY && tab[x2][y2] == S))
+		);
+	}
+
+	return !flag;
+}
+
+bool Board :: checkSBad(int x, int y) const {
+	const int delta[][2] =  {
+		{1, 0},
+		{0, 1},
+		{1, 1},
+		{1, -1}
+	};
+
+	bool flag {};
+
+	if(tab[x][y] != EMPTY) return false;
+
+	for(int i = 0; i < 4; ++i) {
+		for(int k : {-1, 1}) {
+			int x1 = x + k * delta[i][0], y1 = y + k * delta[i][1];
+			int x2 = x + 2 * k * delta[i][0], y2 = y + 2 * k * delta[i][1];
+			flag = flag || (x1 >= 0 && y1 >= 0 && x1 < 8 && y1 < 8 && x2 >= 0 && y2 >= 0 && x2 < 8 && y2 < 8
+				&& ((tab[x1][y1] == O && tab[x2][y2] == EMPTY) || (tab[x1][y1] == EMPTY && tab[x2][y2] == S))
+			);
+		}
+	}
+
+	return !flag;
+}
+
 bool Board :: checkODistraction(int x, int y) const {
 	const int delta[][2] =  {
 		{1, 0},
@@ -166,19 +218,19 @@ bool Board :: checkODistraction(int x, int y) const {
 		{1, -1}
 	};
 
-	bool can {};
+	bool flag {};
 
 	if(tab[x][y] != EMPTY) return false;
 
 	for(int k = 0; k < 4; ++k) {
 		int x0 = x - delta[k][0], y0 = y - delta[k][1];
 		int x2 = x + delta[k][0], y2 = y + delta[k][1];
-		can = can || (x0 >= 0 && y0 >= 0 && x0 < 8 && y0 < 8 && x2 >= 0 && y2 >= 0 && x2 < 8 && y2 < 8
+		flag = flag || (x0 >= 0 && y0 >= 0 && x0 < 8 && y0 < 8 && x2 >= 0 && y2 >= 0 && x2 < 8 && y2 < 8
 			&& tab[x0][y0] != O && tab[x2][y2] != O
 		);
 	}
 
-	return !can;
+	return !flag;
 }
 
 bool Board :: checkSDistraction(int x, int y) const {
@@ -189,7 +241,7 @@ bool Board :: checkSDistraction(int x, int y) const {
 		{1, -1}
 	};
 
-	bool can {};
+	bool flag {};
 
 	if(tab[x][y] != EMPTY) return false;
 
@@ -197,13 +249,12 @@ bool Board :: checkSDistraction(int x, int y) const {
 		for(int k : {-1, 1}) {
 			int x1 = x + k * delta[i][0], y1 = y + k * delta[i][1];
 			int x2 = x + 2 * k * delta[i][0], y2 = y + 2 * k * delta[i][1];
-
-			can = can || (x1 >= 0 && x1 < 8 && y1 >= 0 && y1 < 8 && x2 >= 0 && x2 < 8 &&
+			flag = flag || (x1 >= 0 && x1 < 8 && y1 >= 0 && y1 < 8 && x2 >= 0 && x2 < 8 &&
 			y2 >= 0 && y2 < 8 && tab[x1][y1] != S && tab[x2][y2] != O);
 		}
 	}
 
-	return !can;
+	return !flag;
 }
 
 int Board :: getPoints(int x, int y) const {

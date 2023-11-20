@@ -41,7 +41,7 @@ void About :: draw_widgets() {
 	lblAno.set_label("2023");
 
 	//lblVersão
-	lblVersao.set_label("Versão 0.99");
+	lblVersao.set_label("Versão 1.0");
 
 	//lblLink
 	link.set_label("Site");

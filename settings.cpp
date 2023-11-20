@@ -20,9 +20,7 @@ Settings :: Settings() {
 }
 
 Settings :: ~Settings() {
-	#ifdef DEBUG
-	std :: cout << "saindo dou settings\n";
-	#endif
+	
 }
 
 void Settings :: on_save_clicked() {
@@ -37,10 +35,6 @@ void Settings :: on_save_clicked() {
 		st.saveTable(table);
 		st.saveScore(p1, p2);
 		st.saveFirst(first);
-
-		#ifdef DEBUG
-		std :: cout << "você salvou isso\n";
-		#endif
 	}
 
 	st.close();
@@ -48,9 +42,6 @@ void Settings :: on_save_clicked() {
 
 void Settings :: on_reset_clicked() {
 	vsPlayer.set_active(true);
-	#ifdef DEBUG
-	std :: cout << "você resetou isso\n";
-	#endif
 }
 
 void Settings :: set_hierarchy() {

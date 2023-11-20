@@ -27,9 +27,7 @@ Game :: Game() {
 }
 
 Game :: ~Game() {
-	#ifdef DEBUG
-	std :: cout << "saindo do jogo\n";
-	#endif
+
 }
 
 void Game :: load_data() {
@@ -123,10 +121,6 @@ void Game :: save_data() {
 	st.saveScore(myPoints, yourPoints);
 	st.saveTable(data);
 	st.saveFirst(first);
-
-	#ifdef DEBUG
-	std :: cout << "salvou o estado atual\n";
-	#endif
 
 	st.close();
 }

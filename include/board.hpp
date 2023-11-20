@@ -23,6 +23,8 @@ class Board {
     bool check(int, int) const;
     bool checkODistraction(int, int) const;
     bool checkSDistraction(int, int) const;
+	bool checkOBad(int, int) const;
+	bool checkSBad(int, int) const;
 
 	void getMaxTab(char [][8]) const;
 
