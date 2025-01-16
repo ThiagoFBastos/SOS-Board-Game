@@ -1,6 +1,6 @@
 # SOS Board Game
 
-Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(game)) (Os jogadores sempre alternam os movimentos) em C++ com gtkmm.
+Variação do [SOS Board Game](https://en.wikipedia.org/wiki/SOS_(paper-and-pencil_game)) (Os jogadores sempre alternam os movimentos) em C++ com gtkmm.
 
 # Screenshots
 
